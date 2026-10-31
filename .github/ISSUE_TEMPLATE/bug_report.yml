@@ -1,0 +1,71 @@
+name: 🐞 Bug report / Báo lỗi
+description: Something in Memory Weaver does not work as expected. / Có gì đó trong Memory Weaver chạy sai.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report! Issues are **public** — remove private story content and API keys first.
+        Cảm ơn bạn đã báo lỗi! Issue là **công khai** — hãy xoá nội dung truyện riêng tư và API key trước.
+  - type: input
+    id: st-version
+    attributes:
+      label: SillyTavern version / Phiên bản SillyTavern
+      placeholder: "1.18.0"
+    validations:
+      required: true
+  - type: input
+    id: ext-version
+    attributes:
+      label: Memory Weaver version / Phiên bản Memory Weaver
+      description: Extensions panel → Manage extensions
+      placeholder: "0.9.1"
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: API / model
+      placeholder: "e.g. OpenRouter · Claude, Gemini, local KoboldCpp…"
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device / Thiết bị
+      options:
+        - Desktop
+        - Mobile / Điện thoại
+        - Both / Cả hai
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened? / Chuyện gì xảy ra?
+      description: What you expected, and what happened instead. / Bạn mong đợi gì, và thực tế ra sao.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce / Các bước tái hiện
+      placeholder: |
+        1. Open a chat with …
+        2. Click …
+        3. See …
+    validations:
+      required: true
+  - type: textarea
+    id: console
+    attributes:
+      label: Browser console errors / Lỗi trong console (F12 → Console)
+      description: Copy the red lines, if any. / Copy các dòng màu đỏ nếu có.
+      render: text
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots, other extensions, anything else / Ảnh chụp, extension khác, thông tin thêm
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy / Riêng tư
+      options:
+        - label: I removed private story content and API keys. / Tôi đã xoá nội dung riêng tư và API key.
+          required: true

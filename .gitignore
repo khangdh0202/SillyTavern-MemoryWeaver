@@ -1,0 +1,57 @@
+﻿# --- Local working folders (backups, internal dev notes) ---
+BK/
+local/
+
+# --- Tests & CI (kept locally, never published) ---
+test.mjs
+tests/
+*.test.mjs
+*.test.js
+.github/workflows/
+coverage/
+
+# --- AI agent / assistant files ---
+AGENTS.md
+CLAUDE.md
+SKILL.md
+*.agent.md
+.claude/
+.kilo/
+.cursor/
+.codex/
+.aider*
+.windsurf/
+.continue/
+
+# --- Internal plans / audit notes ---
+*-PLAN.md
+PLAN.md
+FIXES.md
+REVIEW*.md
+*-STATUS.md
+P2-GATE.md
+
+# --- Sensitive / personal data ---
+.env
+.env.*
+*.pem
+*.key
+*.p12
+secrets*.json
+config.yaml
+*.jsonl
+*.zip
+*.bak
+
+# --- Dependencies & logs ---
+node_modules/
+*.log
+
+# --- OS / editor clutter ---
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+*.code-workspace
+*.lnk

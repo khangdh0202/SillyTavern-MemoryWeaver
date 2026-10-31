@@ -1,0 +1,9 @@
+﻿{
+    "display_name": "Memory Weaver",
+    "loading_order": 102,
+    "js": "index.js",
+    "generate_interceptor": "memoryWeaverGenerateInterceptor",
+    "css": "style.css",
+    "author": "kdturtle",
+    "version": "0.9.2"
+}
