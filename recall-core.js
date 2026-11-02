@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* Vector recall core — PURE. No ST imports, no DOM, no network.
  *
  * Frozen P2 semantics (see AGENTS.md):

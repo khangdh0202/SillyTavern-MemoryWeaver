@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* v0.9: the importance rubric (shared by the optimizer and the
  * consolidation pass). */
 export const IMPORTANCE_RUBRIC = '- Rate importance on this rubric: 1 = minor or transient detail (mood, outfit, small talk, a passing scene snapshot); 2 = important (the default); 3 = CORE — the story would BREAK if it were forgotten: identities and true names, relationships and how they changed, secrets, promises and deals, irreversible events (deaths, injuries, betrayals, losses, decisions that cannot be undone). Keep core rare — at most about one entry in five. Never rate a transient state (current mood, stat numbers, "current scene") as 3. Entries rated 3 are tagged [core] and are ALWAYS inserted into the prompt.';

@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* optimizer-runner.js — DI orchestration for the optimizer burst loop (R1).
  *
  * Contract (plan §5.2):

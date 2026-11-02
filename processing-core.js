@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* processing-core.js — PURE processing pipeline core. No ST imports.
  *
  * Responsibilities (R1 hardening):

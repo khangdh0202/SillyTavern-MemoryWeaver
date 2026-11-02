@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* state-controller.js — THE single mutation boundary for the chat-local
  * memoryWeaverState variable (R1 hardening, plan §5.2/§5.3).
  *

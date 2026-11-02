@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* PURE module — the only intra-extension import is recall-core (also pure). */
 import { findNearDuplicate, foundationIdsFor, prepareNearDuplicateSide, preparedSidesNearDuplicate } from './recall-core.js';
 

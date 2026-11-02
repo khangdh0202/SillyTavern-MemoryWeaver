@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* Vietnamese UI strings — dashboard.js. Key = English source text (see i18n.js).
    Placeholders ({n}, {name}, …) must match the key exactly. */
 export default {

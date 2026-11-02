@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* Retriever orchestrator (P2.2) — sync, query and recall cache for the
  * vector index of the CURRENT chat.
  *

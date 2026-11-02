@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 import { extension_settings, getContext } from '../../../extensions.js';
 import { generateRaw, setExtensionPrompt, extension_prompt_types, extension_prompt_roles, saveSettingsDebounced } from '../../../../script.js';
 import { eventSource, event_types } from '../../../events.js';

@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* Vector server adapter — ST core HTTP client for /api/vector/*.
  *
  * Thin and dumb on purpose: every route/schema/auth detail lives here so the

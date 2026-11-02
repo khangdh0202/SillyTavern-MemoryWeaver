@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* ===========================================================================
  * Memory Weaver — dashboard popup (v0.7.0)
  *

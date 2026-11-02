@@ -1,3 +1,4 @@
+/* Memory Weaver — Copyright (C) 2026 kdturtle — GPL-3.0, see LICENSE. */
 /* Vietnamese UI strings — index.js (settings drawer, send-form badge, toasts,
    confirms, /memories feedback). Key = English source text (see i18n.js). */
 export default {
