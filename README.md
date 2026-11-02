@@ -2,6 +2,8 @@
 
 > **English** · [Tiếng Việt](README.vi.md) — Full guide: [USER_GUIDE.md](USER_GUIDE.md) · [USER_GUIDE.vi.md](USER_GUIDE.vi.md)
 
+<p align="center"><img src="docs/screenshots/memory-list.webp" alt="Memory Weaver dashboard: memories tagged by character and importance" width="400"></p>
+
 Memory Weaver gives your AI a **living memory of the current chat**. Every N messages, a silent AI pass compresses the recent conversation into concise memory entries; the most relevant ones are injected back into the prompt, so the AI keeps names, promises, injuries, relationships and consequences consistent — even in very long chats. Fully standalone: no other extension required.
 
 > **Interface language:** the UI is in **English** by default and can be switched to **Tiếng Việt** (or **Auto**, which follows SillyTavern's language) with the **Language** selector at the top of Extensions → Memory Weaver. Only the UI is translated — the prompts sent to the AI are unchanged.
@@ -155,6 +157,16 @@ Without `entity=`, `add` tags the active character (or `USER`); default importan
 3. Open any chat — the **🧠 Memory** button appears next to the send form.
 
 Installing from the Git URL creates the folder `data/<user>/extensions/SillyTavern-MemoryWeaver/`; a manual copy can use any folder name. No API keys beyond your usual chat LLM. Vector recall is optional and off by default.
+
+## Part of a suite
+
+Works on its own, and also plugs into these companion extensions by the same author:
+
+| Extension | What it adds |
+|---|---|
+| [Storyline](https://github.com/khangdh0202/SillyTavern-Storyline) | Storyteller chat mode: you play the main character, the AI narrates the world |
+| [Character State](https://github.com/khangdh0202/SillyTavern-CharacterStats) | Persistent character sheets the AI keeps up to date |
+| [Dice Weaver](https://github.com/khangdh0202/SillyTavern-DiceWeaver) | Real d20 rolls the AI triggers |
 
 ## Documentation
 

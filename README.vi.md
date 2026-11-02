@@ -2,6 +2,8 @@
 
 > [English](README.md) · **Tiếng Việt** — Hướng dẫn đầy đủ: [USER_GUIDE.vi.md](USER_GUIDE.vi.md) · [USER_GUIDE.md](USER_GUIDE.md)
 
+<p align="center"><img src="docs/screenshots/memory-list.webp" alt="Memory Weaver dashboard: memories tagged by character and importance" width="400"></p>
+
 Memory Weaver cho AI một **bộ nhớ sống của chính chat hiện tại**. Cứ mỗi N tin, một lượt AI chạy ngầm nén đoạn hội thoại mới thành các memory ngắn gọn; những memory liên quan nhất được chèn lại vào prompt để AI giữ đúng tên, lời hứa, vết thương, quan hệ và hệ quả — kể cả trong chat rất dài. Hoàn toàn độc lập, không cần extension nào khác.
 
 > **Ngôn ngữ giao diện:** giao diện mặc định là **English**; chọn **Tiếng Việt** (hoặc **Tự động** — theo ngôn ngữ của SillyTavern) ở ô **Ngôn ngữ** trên cùng Extensions → Memory Weaver. Chỉ giao diện được dịch — prompt gửi cho AI giữ nguyên.
@@ -155,6 +157,16 @@ Không có `entity=` thì `add` gắn nhân vật đang chat (hoặc `USER`); m�
 3. Mở một chat bất kỳ — nút **🧠 Memory** xuất hiện cạnh ô gửi tin.
 
 Cài bằng Git URL sẽ tạo thư mục `data/<user>/extensions/SillyTavern-MemoryWeaver/`; nếu chép tay thì tên thư mục tuỳ bạn. Không cần API key nào ngoài LLM bạn đang chat. Vector recall là tuỳ chọn và tắt mặc định.
+
+## Thuộc một bộ extension
+
+Chạy độc lập được, và kết hợp được với các extension cùng tác giả:
+
+| Extension | Thêm gì |
+|---|---|
+| [Storyline](https://github.com/khangdh0202/SillyTavern-Storyline) | Chế độ chat người kể chuyện: bạn nhập vai nhân vật chính, AI kể cả thế giới |
+| [Character State](https://github.com/khangdh0202/SillyTavern-CharacterStats) | Bảng nhân vật lâu dài, AI tự cập nhật |
+| [Dice Weaver](https://github.com/khangdh0202/SillyTavern-DiceWeaver) | Xúc xắc d20 thật do AI kích hoạt |
 
 ## Tài liệu
 
