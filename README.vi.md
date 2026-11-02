@@ -1,4 +1,4 @@
-﻿# Memory Weaver — Bộ nhớ truyện sống cho SillyTavern
+# Memory Weaver — Bộ nhớ truyện sống cho SillyTavern
 
 > [English](README.md) · **Tiếng Việt** — Hướng dẫn đầy đủ: [USER_GUIDE.vi.md](USER_GUIDE.vi.md) · [USER_GUIDE.md](USER_GUIDE.md)
 

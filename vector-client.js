@@ -1,4 +1,4 @@
-﻿/* Vector server adapter — ST core HTTP client for /api/vector/*.
+/* Vector server adapter — ST core HTTP client for /api/vector/*.
  *
  * Thin and dumb on purpose: every route/schema/auth detail lives here so the
  * rest of the extension never touches fetch. No extension imports; the only
