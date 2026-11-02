@@ -98,6 +98,8 @@ export function explainError(error) {
 
 export function createDashboard(deps) {
     const { actions } = deps;
+    /* Display only: the stored/matched tag stays "USER"; the UI shows the persona name. */
+    const entityLabel = (name) => (name === 'USER' && String(deps.getContext()?.name1 ?? '').trim()) || name;
     const ui = {
         root: null,
         tab: 'memories',
@@ -825,7 +827,7 @@ export function createDashboard(deps) {
         const appointments = s.schedule.active.filter(row => (row.item.entities ?? []).includes(name)).length;
         const head = el('div', 'mw-entity-head');
         const title = el('div', 'mw-entity-title');
-        title.append(icon('user'), el('b', '', name));
+        title.append(icon('user'), el('b', '', entityLabel(name)));
         head.append(title, el('span', 'mw-muted', tr('{n} memories · {core} core · AI sees {seen}{appointments}', {
             n: tagged.length, core, seen,
             appointments: appointments ? trn(' · {n} appointment', ' · {n} appointments', appointments) : '',
@@ -957,7 +959,7 @@ export function createDashboard(deps) {
             if (ui.filter.entity && !shown.some(([name]) => name === ui.filter.entity)) shown.push([ui.filter.entity, entityCounts.get(ui.filter.entity)]);
             for (const [name, count] of shown) {
                 const active = ui.filter.entity === name;
-                const node = button({ label: `${name} ${count}`, cls: `mw-filter mw-filter-entity${active ? ' mw-filter-on' : ''}`, fk: `ent-${name}` });
+                const node = button({ label: `${entityLabel(name)} ${count}`, cls: `mw-filter mw-filter-entity${active ? ' mw-filter-on' : ''}`, fk: `ent-${name}` });
                 node.setAttribute('aria-pressed', active ? 'true' : 'false');
                 node.addEventListener('click', () => {
                     ui.filter.entity = active ? '' : name;
@@ -967,7 +969,7 @@ export function createDashboard(deps) {
             }
             if (ranked.length > shown.length) {
                 const rest = ranked.filter(([name]) => !shown.some(([shownName]) => shownName === name));
-                row2.append(select('mw-entity-more', [['', tr('+{n} more names…', { n: rest.length })], ...rest.map(([name, count]) => [name, `${name} (${count})`])], '', {
+                row2.append(select('mw-entity-more', [['', tr('+{n} more names…', { n: rest.length })], ...rest.map(([name, count]) => [name, `${entityLabel(name)} (${count})`])], '', {
                     label: tr('Filter by another name'), fk: 'ent-more', onChange: (value) => {
                         ui.filter.entity = value;
                         renderNow();
@@ -1085,7 +1087,7 @@ export function createDashboard(deps) {
         main.append(top);
 
         const meta = el('div', 'mw-row-meta');
-        for (const name of entry.entities ?? []) meta.append(el('span', 'mw-entity', name));
+        for (const name of entry.entities ?? []) meta.append(el('span', 'mw-entity', entityLabel(name)));
         const source = provenance(entry, s);
         if (source) {
             const link = el('button', 'mw-link', source.label);
