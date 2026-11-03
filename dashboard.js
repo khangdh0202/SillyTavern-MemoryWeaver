@@ -315,6 +315,16 @@ export function createDashboard(deps) {
                 actions: [],
             });
         }
+        /* Memory passes use the main API: with no connection every pass fails,
+           so "working normally" would be a false all-clear. */
+        if (s.settings.enabled && s.settings.mode !== 'off' && deps.getContext()?.onlineStatus === 'no_connection') {
+            alerts.push({
+                tone: 'warn', key: 'offline',
+                title: tr('Not connected to an API — memories cannot be written yet'),
+                body: tr('Memory passes use your current API connection. Connect one in API Connections (the plug icon in the top bar), then press "Remember now" or keep chatting.'),
+                actions: [{ label: tr('Open API Connections'), primary: true, run: openApiConnections }],
+            });
+        }
         if (!s.settings.enabled) {
             alerts.push({
                 tone: 'warn', key: 'disabled', title: tr('Memory Weaver is off'), body: tr('Nothing is remembered and nothing is added to the prompt.'),
@@ -808,6 +818,12 @@ export function createDashboard(deps) {
 
     function closePopup() {
         ui.root?.closest('dialog')?.querySelector('.popup-button-ok')?.click();
+    }
+
+    /* The drawer opens under the modal dashboard: close the dashboard first. */
+    function openApiConnections() {
+        closePopup();
+        window.setTimeout(() => document.querySelector('#sys-settings-button .drawer-toggle')?.click(), 150);
     }
 
     function jumpTo(rawIndex) {
