@@ -215,6 +215,58 @@ export function buildOptimizerPrompt({ entries = [], chunk = [], settings = {}, 
     return { system, user, includedIds };
 }
 
+/* Models quote dialogue inside a string without escaping it
+   ("text":"Claire says "no gun""), and some write raw line breaks inside
+   strings; either breaks JSON.parse. Escape a quote that sits inside a
+   string and is not followed by JSON structure, and escape raw control
+   characters. The result still goes through JSON.parse only. */
+/* A quote closes the string only when what follows is real JSON structure:
+   end of text, `}` / `]`, `:` before a value, or `,` before the next key or
+   element. `"đi", rồi chạy` is a comma inside dialogue, not structure. */
+function closesString(text, from) {
+    const rest = text.slice(from, from + 64);
+    const match = /^\s*([\s\S]?)/.exec(rest);
+    const next = match[1];
+    if (next === '' || next === '}' || next === ']') return true;
+    const after = rest.slice(match[0].length).trimStart();
+    if (next === ':') return after === '' || /^["{[\-\d]|^(true|false|null)\b/.test(after);
+    if (next === ',') return after === '' || /^["{[\]}\-\d]|^(true|false|null)\b/.test(after);
+    return false;
+}
+
+export function repairJsonStrings(text) {
+    let out = '';
+    let inString = false;
+    for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (!inString) {
+            if (ch === '"') inString = true;
+            out += ch;
+            continue;
+        }
+        if (ch === '\\') {
+            out += ch + (text[i + 1] ?? '');
+            i++;
+        } else if (ch === '"') {
+            if (closesString(text, i + 1)) {
+                inString = false;
+                out += ch;
+            } else {
+                out += '\\"';
+            }
+        } else if (ch === '\n') {
+            out += '\\n';
+        } else if (ch === '\r') {
+            out += '\\r';
+        } else if (ch === '\t') {
+            out += '\\t';
+        } else {
+            out += ch;
+        }
+    }
+    return out;
+}
+
 /* `errorSink` (optional) receives the last JSON.parse error message. */
 function tryParseJsonObject(candidate, errorSink = null) {
     if (candidate === null || candidate === undefined) return null;
@@ -232,13 +284,21 @@ function tryParseJsonObject(candidate, errorSink = null) {
     if (firstBrace >= 0 && lastBrace > firstBrace && (firstBrace > 0 || lastBrace < text.length - 1)) {
         attempts.push(text.slice(firstBrace, lastBrace + 1));
     }
+    /* Repaired copies go last: a valid block is always parsed as written. */
+    for (const attempt of [...attempts]) {
+        const repaired = repairJsonStrings(attempt);
+        if (repaired !== attempt) attempts.push(repaired);
+    }
 
+    let firstError = '';
     for (const attempt of attempts) {
         let payload;
         try {
             payload = JSON.parse(attempt);
         } catch (error) {
-            if (errorSink) errorSink.message = String(error?.message ?? error).slice(0, 160);
+            /* Report the error of the text as written, not of a repair try. */
+            if (!firstError) firstError = String(error?.message ?? error).slice(0, 160);
+            if (errorSink) errorSink.message = firstError;
             continue;
         }
         if (payload && typeof payload === 'object' && !Array.isArray(payload)) return payload;

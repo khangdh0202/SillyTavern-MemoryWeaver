@@ -468,6 +468,34 @@ export function acknowledgeCoverage(state, chat) {
  * exact-text duplicate of ANOTHER entry rejects too.
  * ========================================================================= */
 
+/* Models sometimes edit or delete an id that does not exist or was not shown
+   to them (a mistyped or invented id). Such an op targets nothing, so it is
+   dropped instead of failing the whole pass — unless most ops are bad, which
+   means the model lost track of the list and the pass is still rejected by
+   validatePatch. Returns the patch to validate plus the dropped op labels. */
+export function pruneForeignIds(patch, { entries = [], promptEntryIds = [] } = {}) {
+    const storeIds = new Set((Array.isArray(entries) ? entries : []).map(entry => String(entry?.id ?? '')));
+    const promptIds = new Set((Array.isArray(promptEntryIds) ? promptEntryIds : []).map(String));
+    const known = id => storeIds.has(id) && promptIds.has(id);
+    const updates = Array.isArray(patch?.update) ? patch.update : [];
+    const deletes = Array.isArray(patch?.delete) ? patch.delete : [];
+    const dropped = [];
+    const keptUpdates = updates.filter((upd, i) => {
+        const id = String(upd?.id ?? '');
+        if (!upd || typeof upd !== 'object' || !id || known(id)) return true;
+        dropped.push(`update[${i}] ${id}`);
+        return false;
+    });
+    const keptDeletes = deletes.filter((id, i) => {
+        if (known(String(id ?? ''))) return true;
+        dropped.push(`delete[${i}] ${String(id ?? '')}`);
+        return false;
+    });
+    const total = updates.length + deletes.length;
+    if (!dropped.length || dropped.length * 2 > total) return { patch, dropped: [] };
+    return { patch: { ...patch, update: keptUpdates, delete: keptDeletes }, dropped };
+}
+
 export function validatePatch(patch, { entries = [], promptEntryIds = [], scheduleOps = null, promptScheduleIds = [], maxScheduleActive = null, activeScheduleCount = null } = {}) {
     const errors = [];
     const list = Array.isArray(entries) ? entries : [];

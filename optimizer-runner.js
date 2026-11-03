@@ -31,7 +31,7 @@ import {
     buildChapterPrompt, parseChapterResponse, buildConsolidationPrompt, CONSOLIDATION_BATCH_MAX,
 } from './summarizer.js';
 import {
-    planNextBatch, validatePatch, makeBatchId, commitPrefixBlocks, mergeDirtyFrom,
+    planNextBatch, validatePatch, pruneForeignIds, makeBatchId, commitPrefixBlocks, mergeDirtyFrom,
     canonicalEntriesFingerprint, rangeFingerprint, recentWindowRange, acknowledgeCoverage,
     planNextChapter, sourceDescriptors, planConsolidationBatches, staleChapters,
     SOURCE_POLICY_VERSION, BACKLOG_CHUNKS_PER_RUN, CHUNK_MAX,
@@ -420,6 +420,11 @@ export function createOptimizerRunner(deps) {
 
         /* Semantic validation against the LIVE store (T07/T10). */
         const liveState = deps.loadState();
+        const pruned = pruneForeignIds(parsed.patch, { entries: liveState.entries, promptEntryIds: batch.promptEntryIds });
+        if (pruned.dropped.length) {
+            parsed.patch = pruned.patch;
+            logWarn('Optimizer patch: skipped ops on ids that do not exist or were not shown:', pruned.dropped.join(', '));
+        }
         const semantic = validatePatch(parsed.patch, {
             entries: liveState.entries,
             promptEntryIds: batch.promptEntryIds,
@@ -1137,11 +1142,16 @@ export function createOptimizerRunner(deps) {
         if (parsed.protocol !== 2) return fail('parse_failed', 'consolidation requires the protocol-2 envelope', execution);
         if (parsed.batchId !== batchId) return fail('batch_mismatch', 'batch id mismatch', execution);
         if ((parsed.patch.add ?? []).length) return fail('invalid_patch', 'consolidation may not add new memories', execution);
-        const patch = { add: [], update: parsed.patch.update ?? [], delete: parsed.patch.delete ?? [] };
+        let patch = { add: [], update: parsed.patch.update ?? [], delete: parsed.patch.delete ?? [] };
         if (patch.delete.length > 10 && patch.delete.length > editable.length * CONSOLIDATION_MAX_DELETE_RATIO) {
             return fail('invalid_patch', `consolidation tried to delete ${patch.delete.length} of ${editable.length} memories — refused`, execution);
         }
         const liveState = deps.loadState();
+        const pruned = pruneForeignIds(patch, { entries: liveState.entries, promptEntryIds: prompt.includedIds });
+        if (pruned.dropped.length) {
+            patch = pruned.patch;
+            logWarn('Consolidation patch: skipped ops on ids that do not exist or were not shown:', pruned.dropped.join(', '));
+        }
         const semantic = validatePatch(patch, { entries: liveState.entries, promptEntryIds: prompt.includedIds });
         if (!semantic.ok) return fail('invalid_patch', semantic.errors.join('; '), execution);
 
